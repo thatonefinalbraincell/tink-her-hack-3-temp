@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Ride Sharing</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4cf;
+    background-image: url('https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_552,w_552/v1710101362/assets/13/bd753e-2843-44d4-9aff-cc44c3062e95/original/SS_Commuter.jpg');
+    
+    background-size: cover;       /* Ensures the image covers the full screen */
+    background-position: center;  /* Centers the image */
+    background-attachment: fixed; /* Keeps the image fixed while scrolling */
+    
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;                /* Ensures the body takes up full height of the viewport */
+}
+        h1 {
+            color: #030303;
+            margin-top: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.798);
+            width: 50%;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #007BFF;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .page {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        #user-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Ride Sharing</h1>
+
+    <!-- User Tag -->
+    <div id="user-tag"></div>
+
+    <!-- Navigation buttons -->
+    <div>
+        <button onclick="showPage('signup')">Sign Up</button>
+        <button onclick="showPage('find')">Find Ride</button>
+        <button onclick="showPage('request')">Request Ride</button>
+        <button onclick="showPage('view')">View Student</button>
+    </div>
+
+    <!-- Student Signup Page -->
+    <div class="container page" id="signup">
+        <h2>Student Signup</h2>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="student_id" placeholder="Student ID">
+        <input type="text" id="phone_number" placeholder="Phone Number">
+        <button onclick="addStudent()">Sign Up</button>
+    </div>
+
+    <!-- Find Ride Page -->
+    <div class="container page" id="find">
+        <h2>Find a Ride</h2>
+        <input type="text" id="pickup" placeholder="Pickup Location">
+        <input type="text" id="destination" placeholder="Destination">
+        <input type="date" id="date">
+        <button onclick="findRide()">Find Ride</button>
+        <div id="ride-matches"></div>
+    </div>
+
+    <!-- Request Ride Page -->
+    <div class="container page" id="request">
+        <h2>Request a Ride</h2>
+        <input type="text" id="student_id" placeholder="Student ID">
+        <input type="text" id="pickup" placeholder="Pickup Location">
+        <input type="text" id="destination" placeholder="Destination">
+        <input type="date" id="date">
+        <button onclick="requestRide()">Request Ride</button>
+    </div>
+
+    <!-- View Student Page -->
+    <div class="container page" id="view">
+        <h2>View Student</h2>
+        <input type="text" id="student_id" placeholder="Enter Student ID">
+        <button onclick="viewStudent()">View Student</button>
+        <div id="student-details"></div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        // Function to show the relevant page
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            const page = document.getElementById(pageId);
+            page.classList.add('active');
+        }
+
+        // Set the default page to 'signup'
+        showPage('signup');
+    </script>
+</body>
+</html>

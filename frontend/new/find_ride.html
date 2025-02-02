@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Ride</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_552,w_552/v1710101362/assets/13/bd753e-2843-44d4-9aff-cc44c3062e95/original/SS_Commuter.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Main Container */
+        .main-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header Styling */
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-top: 20px;
+        }
+
+        /* Search Inputs */
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #007BFF;
+        }
+
+        /* Search Button */
+        .search-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-link {
+            font-size: 16px;
+            text-decoration: none;
+            color: #007BFF;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>Find a Ride</h1>
+        </header>
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="pickup" placeholder="Enter Pickup Location" class="search-input">
+                <input type="text" id="destination" placeholder="Enter Destination" class="search-input">
+                <input type="date" id="date" class="search-input">
+                <button onclick="findRide()" class="search-btn">Find Ride</button>
+            </div>
+        </section>
+        <footer>
+            <div class="footer-links">
+                <a href="student_signup.html" class="footer-link">Sign Up</a> | 
+                <a href="request_ride.html" class="footer-link">Request a Ride</a> | 
+                <a href="view_student.html" class="footer-link">View Student</a>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

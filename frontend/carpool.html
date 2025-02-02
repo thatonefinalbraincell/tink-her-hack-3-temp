@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Sharing Platform</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        #map {
+            height: 300px;
+            width: 90%;
+            margin: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ride Sharing Platform</h1>
+    
+    <div class="container">
+        <h2>Student Signup</h2>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="student_id" placeholder="Student ID">
+        <input type="text" id="phone_number" placeholder="Phone Number">
+        <button onclick="addStudent()">Sign Up</button>
+    </div>
+
+    <div class="container">
+        <h2>Request a Ride</h2>
+        <input type="text" id="ride_student_id" placeholder="Your Student ID">
+        <input type="text" id="pickup" placeholder="Pickup Location">
+        <input type="text" id="destination" placeholder="Destination">
+        <input type="date" id="date">
+        <div id="map"></div>
+        <button onclick="addRide()">Request Ride</button>
+    </div>
+
+    <div class="container">
+        <h2>Find a Ride</h2>
+        <input type="text" id="search_pickup" placeholder="Pickup Location">
+        <input type="text" id="search_destination" placeholder="Destination">
+        <input type="date" id="search_date">
+        <button onclick="findMatch()">Find Ride</button>
+    </div>
+
+    <div class="container">
+        <h2>View Student Details</h2>
+        <input type="text" id="view_student_id" placeholder="Enter Student ID">
+        <button onclick="getUserDetails()">View Details</button>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([12.9716, 77.5946], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var markers = [];
+
+        map.on('click', function(e) {
+            if (markers.length >= 2) {
+                alert("You can only select Pickup and Destination.");
+                return;
+            }
+            var marker = L.marker(e.latlng).addTo(map);
+            markers.push(marker);
+
+            if (markers.length == 1) {
+                document.getElementById('pickup').value = e.latlng.lat + ", " + e.latlng.lng;
+            } else if (markers.length == 2) {
+                document.getElementById('destination').value = e.latlng.lat + ", " + e.latlng.lng;
+            }
+        });
+
+        async function addStudent() {
+            const data = {
+                name: document.getElementById('name').value,
+                student_id: document.getElementById('student_id').value,
+                phone_number: document.getElementById('phone_number').value
+            };
+            await fetch("http://localhost:8000/add_student/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            alert("Student Added Successfully");
+        }
+
+        async function addRide() {
+            const data = {
+                student_id: document.getElementById('ride_student_id').value,
+                pickup: document.getElementById('pickup').value,
+                destination: document.getElementById('destination').value,
+                date: document.getElementById('date').value
+            };
+            await fetch("http://localhost:8000/add_ride/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            alert("Ride Requested Successfully");
+        }
+
+        async function findMatch() {
+            const data = {
+                pickup: document.getElementById('search_pickup').value,
+                destination: document.getElementById('search_destination').value,
+                date: document.getElementById('search_date').value
+            };
+            const response = await fetch("http://localhost:8000/find_match/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+
+        async function getUserDetails() {
+            const student_id = document.getElementById('view_student_id').value;
+            const response = await fetch(`http://localhost:8000/get_user/${student_id}`);
+            const result = await response.json();
+            alert(JSON.stringify(result));
+        }
+    </script>
+</body>
+</html>
